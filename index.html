@@ -151,9 +151,9 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:20px 0}
 const ALL=(window.BRIEF||[]).filter(x=>x&&x.id&&x.kind);
 const BY={}; ALL.forEach(x=>BY[x.id]=x);
 const STORIES=ALL.filter(x=>x.kind==="story"), DIRS=ALL.filter(x=>x.kind==="direction"), FACTS=ALL.filter(x=>x.kind==="fact");
-const ROOM_ORDER=["Chairing and governance","Negotiation and the ask","Saying no and holding the line","Bad news and owning it","Praise, credit and lifting people","Grief, care and steadiness","The first minute","Silence, timing and the light touch","The bandstand","The classroom","Small talk and rapport","Words and phrasing"];
+const ROOM_ORDER=["Chairing and governance","Leading a department","Negotiation and the ask","Money and the treasury","Saying no and holding the line","Bad news and owning it","Parents","Colleagues and staff","Praise, credit and lifting people","Grief, care and steadiness","The first minute","Interviews, press and public questions","Silence, timing and the light touch","Writing it down","The bandstand","The classroom","Small talk and rapport","Words and phrasing"];
 const ROOMS=[...ROOM_ORDER.filter(r=>ALL.some(x=>x.room===r)), ...[...new Set(ALL.map(x=>x.room))].filter(r=>!ROOM_ORDER.includes(r))];
-const ROOM_SHORT={"Chairing and governance":"Chairing","Negotiation and the ask":"The ask","Saying no and holding the line":"Saying no","Bad news and owning it":"Bad news","Praise, credit and lifting people":"Praise","Grief, care and steadiness":"Grief and care","The first minute":"The first minute","Silence, timing and the light touch":"Silence and timing","The bandstand":"The bandstand","The classroom":"The classroom","Small talk and rapport":"Rapport","Words and phrasing":"Words"};
+const ROOM_SHORT={"Chairing and governance":"Chairing","Negotiation and the ask":"The ask","Saying no and holding the line":"Saying no","Bad news and owning it":"Bad news","Praise, credit and lifting people":"Praise","Grief, care and steadiness":"Grief and care","The first minute":"The first minute","Silence, timing and the light touch":"Silence and timing","The bandstand":"The bandstand","The classroom":"The classroom","Small talk and rapport":"Rapport","Words and phrasing":"Words","Parents":"Parents","Colleagues and staff":"Colleagues","Writing it down":"Writing","Money and the treasury":"Money","Leading a department":"Leading","Interviews, press and public questions":"Questions"};
 const short=r=>ROOM_SHORT[r]||r;
 const inRoom=(r,k)=>ALL.filter(x=>x.room===r&&(!k||x.kind===k));
 const KIND={story:"Story",direction:"Direction",fact:"Fact"};
@@ -245,7 +245,7 @@ function vToday(){
 function vRooms(){
   if(view&&BY[view]) return `<button class="back" data-back>${I.back} ${room?esc(short(room)):"Rooms"}</button>${detailHtml(BY[view])}${randomSeq?`<div class="row" style="margin:6px 0 20px"><button class="btn" data-random>${I.shuffle} Another</button></div>`:""}`;
   if(!room) return `<h1>${walkMode?"Walking in.":"Rooms"}</h1><p class="sub">${walkMode?"Pick the room you're about to enter.":"Every room has its directions, its facts and its stories."}</p>
-    <div class="tiles">${ROOMS.map(r=>`<div class="tile" data-room="${esc(r)}"><div class="t">${esc(short(r))}</div><div class="n">${inRoom(r,"direction").length} directions · ${inRoom(r,"fact").length} facts · ${inRoom(r,"story").length} stories</div></div>`).join("")}</div>`;
+    <div class="tiles">${ROOMS.map(r=>`<div class="tile" data-room="${esc(r)}"><div class="t">${esc(short(r))}</div><div class="n">${[[inRoom(r,"direction").length,"directions"],[inRoom(r,"fact").length,"facts"],[inRoom(r,"story").length,"stories"]].filter(a=>a[0]).map(a=>a[0]+" "+a[1]).join(" · ")}</div></div>`).join("")}</div>`;
   const dirs=inRoom(room,"direction"), facts=inRoom(room,"fact"), stories=inRoom(room,"story");
   if(walkMode){
     const r=seeded(dayNum()*31+room.length*101+walkSalt); const dd=dirs.slice(); const picks=[]; while(picks.length<6&&dd.length) picks.push(dd.splice(Math.floor(r()*dd.length),1)[0]);

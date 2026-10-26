@@ -1,5 +1,5 @@
 // The Brief service worker. Change VERSION whenever any file changes so phones pick up the update.
-const VERSION = "brief-v1";
+const VERSION = "brief-v2";
 const CACHE = VERSION;
 const CORE = [
   "./", "index.html", "manifest.webmanifest",
