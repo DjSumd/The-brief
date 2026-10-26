@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Brief</title>
+<meta name="description" content="Stories, directions and facts for the room you are about to walk into.">
+<meta name="theme-color" content="#f4efe6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="The Brief">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4efe6; --bg2:#ece6da; --panel:#fbf8f2; --line:#ddd5c6;
+  --ink:#1e1b1a; --ink2:#5a544d; --ink3:#8c857b;
+  --ox:#6e1f2b; --ox2:#8a2a38; --oxsoft:rgba(110,31,43,.08);
+  --brass:#9a7640; --brass2:#b8924f; --brasssoft:rgba(154,118,64,.12);
+  --shadow:0 1px 2px rgba(30,27,26,.06),0 6px 18px rgba(30,27,26,.05);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif; --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --fs:1.38rem; --safe-b:env(safe-area-inset-bottom,0px);
+}
+:root[data-theme="dark"]{ --bg:#16151a; --bg2:#1d1b22; --panel:#211f26; --line:#34303b; --ink:#ece6da; --ink2:#b9b2a6; --ink3:#8a847a; --ox:#8a2a38; --ox2:#a4384a; --oxsoft:rgba(138,42,56,.16); --brass:#c39a55; --brass2:#dcb56e; --brasssoft:rgba(195,154,85,.14); --shadow:none; }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding-bottom:calc(86px + var(--safe-b))}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;letter-spacing:.005em}
+h1{font-size:2.3rem;line-height:1.05}
+h2{font-size:1.7rem;line-height:1.12}
+h3{font-size:1.25rem}
+p{margin:0 0 .8em}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+header.top{padding:calc(14px + env(safe-area-inset-top,0px)) 18px 4px;display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+header.top .brand{font-family:var(--serif);font-size:1.3rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ox)}
+header.top .right{display:flex;gap:14px;align-items:center;color:var(--ink3);font-size:.78rem}
+header.top .right button{color:var(--ink3);display:flex}
+header.top svg{width:20px;height:20px}
+main{padding:10px 18px 20px;max-width:680px;margin:0 auto}
+.eyebrow{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:600;margin-bottom:6px}
+.sub{color:var(--ink2);font-size:.95rem}
+.note{color:var(--ink3);font-size:.85rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;box-shadow:var(--shadow);position:relative}
+.card.tap{cursor:pointer}
+.card.tap:active{background:var(--bg2)}
+.card.ox{border-color:rgba(110,31,43,.3);background:linear-gradient(180deg,var(--oxsoft),var(--panel) 70%)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-size:.88rem;font-weight:500;min-height:42px}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--ox);border-color:var(--ox);color:#f8f2ea}
+.btn.brass{background:var(--brasssoft);border-color:rgba(154,118,64,.45);color:var(--brass)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--ink2)}
+.btn.on{background:var(--brass);border-color:var(--brass);color:#fff}
+.btn.small{padding:6px 10px;min-height:32px;font-size:.8rem}
+.btn svg{width:16px;height:16px;flex:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:4px 18px 10px;scrollbar-width:none;margin:0 -18px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:none;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:.82rem;color:var(--ink2);white-space:nowrap}
+.pill.on{background:var(--ox);color:#f8f2ea;border-color:var(--ox);font-weight:500}
+.pill .n{opacity:.65;font-size:.72rem;margin-left:4px}
+.search{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 14px;color:var(--ink);font:inherit;font-size:.95rem;margin:4px 0 8px}
+.search:focus{outline:none;border-color:var(--brass)}
+textarea.search{min-height:110px;resize:vertical;line-height:1.5;font-family:var(--serif);font-size:1.15rem}
+.story .meta{font-size:.8rem;color:var(--ink3);letter-spacing:.04em;margin:6px 0 16px}
+.story .meta b{color:var(--ink2);font-weight:500}
+.story .text p{font-family:var(--serif);font-size:var(--fs);line-height:1.5;margin:0 0 1em;color:var(--ink)}
+.story .text p:first-child::first-letter{font-size:2.2em;line-height:.8;float:left;padding:6px 6px 0 0;color:var(--ox);font-weight:500}
+.lineblock{margin:18px 0 10px;padding:16px 18px;border-left:3px solid var(--ox);background:var(--oxsoft);border-radius:0 14px 14px 0}
+.lineblock .lbl{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ox);font-weight:700;margin-bottom:4px}
+.lineblock .ln{font-family:var(--serif);font-size:1.45rem;line-height:1.3;color:var(--ink)}
+.moveblock{margin:10px 0 18px;padding:14px 18px;border-left:3px solid var(--brass);background:var(--brasssoft);border-radius:0 14px 14px 0}
+.moveblock .lbl{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:700;margin-bottom:4px}
+.moveblock .mv{font-family:var(--serif);font-size:1.2rem;line-height:1.35;color:var(--ink)}
+.list .item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.list .item:active{background:var(--bg2)}
+.list .item .t{font-family:var(--serif);font-size:1.22rem;line-height:1.2}
+.list .item .m{font-size:.78rem;color:var(--ink3);margin-top:2px}
+.list .item .arrow{color:var(--ink3);flex:none}
+.list .item.read .t{color:var(--ink2)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 14px;cursor:pointer;box-shadow:var(--shadow)}
+.tile:active{background:var(--bg2)}
+.tile .t{font-family:var(--serif);font-size:1.3rem;line-height:1.15}
+.tile .n{font-size:.74rem;color:var(--ink3);margin-top:4px}
+.tile.big{grid-column:1/-1;background:var(--ox);color:#f8f2ea;border-color:var(--ox)}
+.tile.big .n{color:rgba(248,242,234,.7)}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--ink2);font-size:.86rem;margin:2px 0 10px;padding:6px 0}
+.back svg{width:16px;height:16px}
+.badge{display:inline-flex;min-width:18px;height:18px;border-radius:9px;background:var(--ox);color:#fff;font-size:.68rem;font-weight:700;align-items:center;justify-content:center;padding:0 5px;margin-left:5px;vertical-align:middle}
+.empty{text-align:center;padding:30px 12px;color:var(--ink3)}
+.empty strong{display:block;font-family:var(--serif);font-size:1.45rem;color:var(--ink2);margin-bottom:6px;font-weight:500}
+.walk .l{font-family:var(--serif);font-size:1.45rem;line-height:1.3;color:var(--ink)}
+.walk .w{font-size:.8rem;color:var(--ink3);margin-top:4px}
+.walk .mv{font-size:.92rem;color:var(--ink2);margin-top:8px;border-top:1px solid var(--line);padding-top:8px}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-family:var(--serif);font-size:1.6rem;font-weight:500;color:var(--ox)}
+.stat span{font-size:.68rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+.refl{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.refl .saved{font-family:var(--serif);font-size:1.15rem;color:var(--ink2);white-space:pre-wrap;font-style:italic}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(8px + var(--safe-b));z-index:20}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);position:relative}
+nav.tabs button.on{color:var(--ox)}
+nav.tabs svg{width:22px;height:22px}
+nav.tabs .badge{position:absolute;top:2px;right:calc(50% - 22px)}
+#toast{position:fixed;left:50%;bottom:calc(98px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.88rem;font-weight:500;opacity:0;pointer-events:none;transition:all .25s;z-index:30;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+hr.sep{border:0;border-top:1px solid var(--line);margin:20px 0}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:3px;margin:8px 0 14px}
+.seg button{flex:1;padding:9px 6px;border-radius:9px;font-size:.82rem;color:var(--ink2);font-weight:500}
+.seg button.on{background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+.quote{font-family:var(--serif);font-size:1.45rem;line-height:1.3;font-style:italic;color:var(--ink)}
+.az{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.az button{padding:6px 9px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-size:.8rem;color:var(--ink2)}
+.az button.on{background:var(--ox);color:#fff;border-color:var(--ox)}
+.fsctl{display:flex;gap:6px}
+.fsctl button{width:40px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--panel);font-family:var(--serif)}
+@media(min-width:600px){.tiles{grid-template-columns:repeat(3,1fr)}}
+
+.dir{padding:14px 0;border-bottom:1px solid var(--line)}
+.dir .when{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);font-weight:600;margin-bottom:3px}
+.dir .do{font-family:var(--serif);font-size:1.32rem;line-height:1.25;color:var(--ink);font-weight:500}
+.dir .why{font-size:.92rem;color:var(--ink2);margin-top:5px;line-height:1.5}
+.dir .src{font-size:.72rem;color:var(--ink3);margin-top:4px}
+.dir .acts{margin-top:8px}
+.factcard{padding:14px 0;border-bottom:1px solid var(--line)}
+.factcard .f{font-family:var(--serif);font-size:1.25rem;line-height:1.35;color:var(--ink)}
+.factcard .s{font-size:.78rem;color:var(--brass);margin-top:6px;font-weight:500}
+.factcard .u{font-size:.9rem;color:var(--ink2);margin-top:4px}
+.kindtag{display:inline-block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--bg2);color:var(--ink3);font-weight:600;margin-left:6px;vertical-align:middle}
+.roomhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:4px 0 2px}
+.compact .dir{padding:10px 0}
+.compact .dir .why{display:none}
+.compact .dir .acts{display:none}
+</style>
+</head>
+<body>
+<header class="top"><div class="brand">The Brief</div><div class="right"><span id="hdrDate"></span><button data-tab="more" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div></header>
+<main id="view"></main>
+<nav class="tabs" id="tabs"></nav>
+<div id="toast"></div>
+<input type="file" id="restoreFile" accept=".json,application/json" hidden>
+
+<script src="content.js"></script>
+<script>
+/* ===================== CONTENT ===================== */
+const ALL=(window.BRIEF||[]).filter(x=>x&&x.id&&x.kind);
+const BY={}; ALL.forEach(x=>BY[x.id]=x);
+const STORIES=ALL.filter(x=>x.kind==="story"), DIRS=ALL.filter(x=>x.kind==="direction"), FACTS=ALL.filter(x=>x.kind==="fact");
+const ROOM_ORDER=["Chairing and governance","Negotiation and the ask","Saying no and holding the line","Bad news and owning it","Praise, credit and lifting people","Grief, care and steadiness","The first minute","Silence, timing and the light touch","The bandstand","The classroom","Small talk and rapport","Words and phrasing"];
+const ROOMS=[...ROOM_ORDER.filter(r=>ALL.some(x=>x.room===r)), ...[...new Set(ALL.map(x=>x.room))].filter(r=>!ROOM_ORDER.includes(r))];
+const ROOM_SHORT={"Chairing and governance":"Chairing","Negotiation and the ask":"The ask","Saying no and holding the line":"Saying no","Bad news and owning it":"Bad news","Praise, credit and lifting people":"Praise","Grief, care and steadiness":"Grief and care","The first minute":"The first minute","Silence, timing and the light touch":"Silence and timing","The bandstand":"The bandstand","The classroom":"The classroom","Small talk and rapport":"Rapport","Words and phrasing":"Words"};
+const short=r=>ROOM_SHORT[r]||r;
+const inRoom=(r,k)=>ALL.filter(x=>x.room===r&&(!k||x.kind===k));
+const KIND={story:"Story",direction:"Direction",fact:"Fact"};
+
+/* ===================== STATE ===================== */
+const DAY=86400000; const dayNum=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/DAY);
+function lsGet(k,d){ try{ const v=JSON.parse(localStorage.getItem(k)||"null"); return v===null?d:v; }catch(e){ return d; } }
+let warned=false; function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ if(!warned){ warned=true; toast("Storage is full. Make a backup."); } return false; } }
+let S=lsGet("brief-state",{read:[],saved:[],kept:[],days:[],theme:"light",fs:1.38});
+let N=lsGet("brief-notes",{});
+function persist(){ lsSet("brief-state",S); lsSet("brief-notes",N); }
+function normalise(){ for(const k of ["read","saved","kept","days"]) if(!Array.isArray(S[k])) S[k]=[]; S.kept=S.kept.filter(k=>k&&BY[k.id]); S.saved=S.saved.filter(id=>BY[id]); if(!N||typeof N!=="object") N={}; if(!S.fs) S.fs=1.38; }
+normalise();
+const isRead=id=>S.read.includes(id), isSaved=id=>S.saved.includes(id), keptOf=id=>S.kept.find(k=>k.id===id);
+function markRead(id){ if(!isRead(id)){ S.read.push(id); const d=dayNum(); if(!S.days.includes(d)) S.days.push(d); persist(); } }
+function toggleSave(id){ if(isSaved(id)){ S.saved=S.saved.filter(x=>x!==id); toast("Removed from Saved"); } else { S.saved.unshift(id); toast("Saved"); } persist(); }
+function toggleKeep(id){ if(keptOf(id)){ S.kept=S.kept.filter(k=>k.id!==id); toast("Taken out of Review"); } else { S.kept.unshift({id,keptAt:Date.now(),interval:1,due:dayNum()+1}); toast("It'll come back tomorrow"); } persist(); }
+const due=()=>S.kept.filter(k=>(k.due??0)<=dayNum());
+function applyTheme(){ document.documentElement.dataset.theme=S.theme==="dark"?"dark":"light"; document.documentElement.style.setProperty("--fs",S.fs+"rem"); document.querySelector('meta[name="theme-color"]').content=S.theme==="dark"?"#16151a":"#f4efe6"; }
+applyTheme();
+
+/* ===================== UTIL ===================== */
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function seeded(n){ let a=n>>>0; return ()=>{ a=(a+0x6D2B79F5)|0; let t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; }; }
+function pickN(arr,n,salt){ const r=seeded(dayNum()*7919+salt); const a=arr.slice(); const out=[]; while(out.length<n&&a.length){ out.push(a.splice(Math.floor(r()*a.length),1)[0]); } return out; }
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),1600); }
+const I={
+  today:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  rooms:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16M4 21h16M9 21v-6h6v6M12 7h.01"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+  saved:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  review:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5.3M19 3v4h-4M20 12a8 8 0 0 1-14 5.3M5 21v-4h4"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+  bookmark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>',
+  shuffle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 4h4v4M4 20l16-16M4 4l5 5M15 15l5 5v-4"/></svg>',
+  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg>',
+  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20V8m-5 5 5-5 5 5M5 4h14"/></svg>'
+};
+
+/* ===================== SPEECH ===================== */
+const canSpeak="speechSynthesis" in window && typeof SpeechSynthesisUtterance!=="undefined"; let speakingId=null;
+function pickVoice(){ const v=speechSynthesis.getVoices(); return v.find(x=>/en-AU/i.test(x.lang))||v.find(x=>/en-GB/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null; }
+function stopSpeech(){ if(canSpeak&&speakingId){ speechSynthesis.cancel(); speakingId=null; } }
+function speakStory(s){ if(!canSpeak) return toast("Speech isn't available here"); if(speakingId===s.id){ stopSpeech(); render(); return; } speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(`${s.title}. ${s.who}, ${s.when}. ${s.text.replace(/\n+/g," ")} The line: ${s.line}. The move: ${s.move}`); const v=pickVoice(); if(v) u.voice=v; u.rate=.95; u.onend=()=>{ speakingId=null; render(); }; speakingId=s.id; speechSynthesis.speak(u); render(); }
+
+/* ===================== DAILY ===================== */
+function todaySet(){
+  const d=dayNum(); const pinned=lsGet("brief-today",null); if(pinned&&pinned.d===d&&pinned.story&&BY[pinned.story]) return {story:BY[pinned.story],dirs:pinned.dirs.map(id=>BY[id]).filter(Boolean),fact:BY[pinned.fact]||null};
+  const unread=STORIES.filter(s=>!isRead(s.id)); const story=pickN(unread.length?unread:STORIES,1,1)[0];
+  const dirs=pickN(DIRS.filter(x=>x.room!=="Words and phrasing"),3,2); const fact=pickN(FACTS,1,3)[0]||null;
+  lsSet("brief-today",{d,story:story.id,dirs:dirs.map(x=>x.id),fact:fact?fact.id:null}); return {story,dirs,fact};
+}
+
+/* ===================== RENDER PIECES ===================== */
+function acts(x){ return `<div class="row acts"><button class="btn small ${isSaved(x.id)?"on":""}" data-save="${x.id}">${I.bookmark} ${isSaved(x.id)?"Saved":"Save"}</button><button class="btn small ${keptOf(x.id)?"on":"brass"}" data-keep="${x.id}">${I.flag} ${keptOf(x.id)?"In Review":"Make it stick"}</button>${N[x.id]&&N[x.id].text?`<button class="btn small ghost" data-open="${x.id}">Note</button>`:""}</div>`; }
+function noteBlock(x){ const note=N[x.id]; return `<div class="refl">${editing===x.id?`<div class="eyebrow">Your note</div><textarea class="search" id="ntext" placeholder="Where this would have helped. Where it will.">${esc(note?note.text:"")}</textarea><div class="row"><button class="btn primary" data-nsave="${x.id}">Save note</button><button class="btn ghost" data-ncancel>Cancel</button></div>`:note&&note.text?`<div class="eyebrow">Your note</div><div class="saved">${esc(note.text)}</div><div class="row" style="margin-top:8px"><button class="btn small ghost" data-nedit="${x.id}">Edit</button></div>`:`<button class="btn ghost" data-nedit="${x.id}">Add a note</button>`}</div>`; }
+function storyHtml(s){
+  const paras=s.text.split(/\n\s*\n/);
+  return `<article class="story"><div class="eyebrow">${esc(s.room)}<span class="kindtag">Story</span></div><h2>${esc(s.title)}</h2><div class="meta"><b>${esc(s.who)}</b> · ${esc(s.when)}${s.where?` · ${esc(s.where)}`:""}</div>
+    <div class="text">${paras.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    <div class="lineblock"><div class="lbl">The line</div><div class="ln">${esc(s.line)}</div></div><div class="moveblock"><div class="lbl">The move</div><div class="mv">${esc(s.move)}</div></div>
+    <div class="row"><button class="btn ${isSaved(s.id)?"on":""}" data-save="${s.id}">${I.bookmark} ${isSaved(s.id)?"Saved":"Save"}</button><button class="btn ${keptOf(s.id)?"on":"brass"}" data-keep="${s.id}">${I.flag} ${keptOf(s.id)?"In Review":"Make it stick"}</button>${canSpeak?`<button class="btn ghost" data-speak="${s.id}">${speakingId===s.id?I.stop+" Stop":I.play+" Listen"}</button>`:""}</div>
+    ${noteBlock(s)}${s.tags&&s.tags.length?`<div class="row" style="margin-top:12px">${s.tags.map(t=>`<button class="pill" data-q="${esc(t)}">${esc(t)}</button>`).join("")}</div>`:""}</article>`;
+}
+function dirHtml(d,full){ return `<div class="dir" data-item="${d.id}">${d.when?`<div class="when">${esc(d.when)}</div>`:""}<div class="do">${esc(d.do)}</div><div class="why">${esc(d.why)}</div>${full?`<div class="src">${esc(d.source||"")}</div>${acts(d)}`:""}</div>`; }
+function factHtml(f,full){ return `<div class="factcard" data-item="${f.id}"><div class="f">${esc(f.fact)}</div><div class="s">${esc(f.source)}</div>${f.use?`<div class="u">${esc(f.use)}</div>`:""}${full?acts(f):""}</div>`; }
+function detailHtml(x){ if(x.kind==="story") return storyHtml(x); const head=`<div class="eyebrow">${esc(x.room)}<span class="kindtag">${KIND[x.kind]}</span></div>`; return `<article>${head}${x.kind==="direction"?dirHtml(x,true):factHtml(x,true)}${noteBlock(x)}</article>`; }
+function listItem(x){ const t=x.kind==="story"?x.title:x.kind==="direction"?x.do:x.fact; const m=x.kind==="story"?`${x.who} · ${x.when}`:x.kind==="direction"?(x.when||x.source||""):(x.source||""); return `<div class="item ${isRead(x.id)?"read":""}" data-open="${x.id}"><div><div class="t" style="${x.kind!=="story"?"font-size:1.1rem":""}">${esc(t)}</div><div class="m">${esc(m)}${isSaved(x.id)?" · saved":""}${keptOf(x.id)?" · review":""}</div></div><span class="arrow">›</span></div>`; }
+
+/* ===================== VIEWS ===================== */
+let tab="today", view=null, editing=null, room=null, roomKind="direction", q="", revShow=false, walkMode=false, walkSalt=0, randomSeq=false;
+
+function vToday(){
+  if(view&&BY[view]) return `<button class="back" data-back>${I.back} Today</button>${detailHtml(BY[view])}`;
+  const T=todaySet(); const dd=due().length; const s=T.story;
+  const hour=new Date().getHours(); const greet=hour<12?"Morning":hour<17?"Afternoon":"Evening";
+  return `<h1>${greet}.</h1><p class="sub">One story, three directions, one fact. Then close it.</p>
+    ${dd?`<div class="card ox tap" data-tab="review"><div class="eyebrow">Review</div><div class="quote" style="font-style:normal">${dd} thing${dd>1?"s":""} you asked to keep came back today.</div></div>`:""}
+    <div class="card tap" data-open="${s.id}" style="padding:22px"><div class="eyebrow">Today · ${esc(s.room)}</div><h2 style="margin:4px 0 6px">${esc(s.title)}</h2><div class="note">${esc(s.who)} · ${esc(s.when)}</div><p class="quote" style="margin:14px 0 0">${esc(s.text.split(/\n\s*\n/)[0].slice(0,170))}…</p><div class="row" style="margin-top:14px"><span class="btn primary">Read it</span>${isRead(s.id)?`<span class="note">read</span>`:""}</div></div>
+    <div class="card"><div class="eyebrow">Three directions</div>${T.dirs.map(d=>`<div class="dir" style="cursor:pointer" data-open="${d.id}"><div class="when">${esc(short(d.room))}${d.when?" · "+esc(d.when):""}</div><div class="do">${esc(d.do)}</div><div class="why">${esc(d.why)}</div></div>`).join("")}</div>
+    ${T.fact?`<div class="card tap" data-open="${T.fact.id}"><div class="eyebrow">One fact · ${esc(short(T.fact.room))}</div><div class="f" style="font-family:var(--serif);font-size:1.25rem;line-height:1.35">${esc(T.fact.fact)}</div><div class="s" style="font-size:.78rem;color:var(--brass);margin-top:6px">${esc(T.fact.source)}</div></div>`:""}
+    <div class="tiles"><div class="tile big" data-tab="rooms" data-walk="1"><div class="t">Walking into something?</div><div class="n">Pick the room. Directions first, then three lines from people who handled it.</div></div><div class="tile" data-random><div class="t">Another story</div><div class="n">Shuffle</div></div><div class="tile" data-tab="search"><div class="t">Search</div><div class="n">${ALL.length} items</div></div></div>
+    <div class="stat" style="margin-top:14px"><div><b>${S.read.length}</b><span>read</span></div><div><b>${S.saved.length}</b><span>saved</span></div><div><b>${S.days.length}</b><span>days</span></div></div>`;
+}
+
+function vRooms(){
+  if(view&&BY[view]) return `<button class="back" data-back>${I.back} ${room?esc(short(room)):"Rooms"}</button>${detailHtml(BY[view])}${randomSeq?`<div class="row" style="margin:6px 0 20px"><button class="btn" data-random>${I.shuffle} Another</button></div>`:""}`;
+  if(!room) return `<h1>${walkMode?"Walking in.":"Rooms"}</h1><p class="sub">${walkMode?"Pick the room you're about to enter.":"Every room has its directions, its facts and its stories."}</p>
+    <div class="tiles">${ROOMS.map(r=>`<div class="tile" data-room="${esc(r)}"><div class="t">${esc(short(r))}</div><div class="n">${inRoom(r,"direction").length} directions · ${inRoom(r,"fact").length} facts · ${inRoom(r,"story").length} stories</div></div>`).join("")}</div>`;
+  const dirs=inRoom(room,"direction"), facts=inRoom(room,"fact"), stories=inRoom(room,"story");
+  if(walkMode){
+    const r=seeded(dayNum()*31+room.length*101+walkSalt); const dd=dirs.slice(); const picks=[]; while(picks.length<6&&dd.length) picks.push(dd.splice(Math.floor(r()*dd.length),1)[0]);
+    const pref=stories.filter(s=>isSaved(s.id)||keptOf(s.id)); const ss=stories.filter(s=>!pref.includes(s)); const lines=[]; for(const arr of [pref,ss]){ const a=arr.slice(); while(lines.length<3&&a.length) lines.push(a.splice(Math.floor(r()*a.length),1)[0]); }
+    return `<button class="back" data-roomback>${I.back} Rooms</button><h1 style="font-size:1.9rem">${esc(short(room))}</h1><p class="sub">Read it once. Then put the phone away.</p>
+      ${picks.length?`<div class="card compact"><div class="eyebrow">Do this</div>${picks.map(d=>`<div class="dir" style="cursor:pointer" data-open="${d.id}"><div class="do">${esc(d.do)}</div></div>`).join("")}</div>`:""}
+      ${lines.map(s=>`<div class="card walk tap" data-open="${s.id}"><div class="l">${esc(s.line)}</div><div class="w">${esc(s.who)}, ${esc(s.when)} · <i>${esc(s.title)}</i></div><div class="mv">${esc(s.move)}</div></div>`).join("")}
+      <div class="row" style="margin-top:6px"><button class="btn ghost" data-walkmore>${I.shuffle} Others</button><button class="btn ghost" data-fullroom>Everything in this room</button></div>`;
+  }
+  const kinds=[["direction",`Directions${dirs.length?` <span class="n">${dirs.length}</span>`:""}`],["fact",`Facts${facts.length?` <span class="n">${facts.length}</span>`:""}`],["story",`Stories${stories.length?` <span class="n">${stories.length}</span>`:""}`]];
+  const list=roomKind==="direction"?dirs:roomKind==="fact"?facts:stories;
+  return `<button class="back" data-roomback>${I.back} Rooms</button><div class="roomhead"><h1 style="font-size:1.9rem">${esc(short(room))}</h1><button class="btn small ghost" data-random-room>${I.shuffle}</button></div><p class="sub">${esc(room)}</p>
+    <div class="seg">${kinds.map(k=>`<button class="${roomKind===k[0]?"on":""}" data-kind="${k[0]}">${k[1]}</button>`).join("")}</div>
+    ${!list.length?`<div class="empty"><strong>Nothing here yet</strong></div>`:roomKind==="story"?`<div class="list">${list.map(listItem).join("")}</div>`:roomKind==="direction"?list.map(d=>`<div class="dir" style="cursor:pointer" data-open="${d.id}"><div class="when">${esc(d.when||"")}</div><div class="do">${esc(d.do)}</div><div class="why">${esc(d.why)}</div></div>`).join(""):list.map(f=>`<div class="factcard" style="cursor:pointer" data-open="${f.id}"><div class="f">${esc(f.fact)}</div><div class="s">${esc(f.source)}</div></div>`).join("")}`;
+}
+
+function vSearch(){
+  if(view&&BY[view]) return `<button class="back" data-back>${I.back} Search</button>${detailHtml(BY[view])}`;
+  const qq=q.trim().toLowerCase();
+  const hits=qq?ALL.filter(x=>JSON.stringify(x).toLowerCase().includes(qq)):[];
+  const groups=["direction","fact","story"].map(k=>[k,hits.filter(x=>x.kind===k)]).filter(g=>g[1].length);
+  return `<h1>Search</h1><input class="search" id="q" placeholder="A person, a line, a word, a rule" value="${esc(q)}">
+    ${qq?(hits.length?groups.map(([k,arr])=>`<div class="eyebrow" style="margin-top:14px">${KIND[k]}s · ${arr.length}</div><div class="list">${arr.slice(0,60).map(listItem).join("")}</div>`).join(""):`<div class="empty"><strong>Nothing for that</strong></div>`):`<p class="sub">${STORIES.length} stories, ${DIRS.length} directions, ${FACTS.length} facts.</p><div class="row">${["council","parent","no","praise","silence","fee","rehearsal","apolog"].map(t=>`<button class="pill" data-q="${t}">${t}</button>`).join("")}</div>`}`;
+}
+
+function vSaved(){
+  if(view&&BY[view]) return `<button class="back" data-back>${I.back} Saved</button>${detailHtml(BY[view])}`;
+  const list=S.saved.map(id=>BY[id]).filter(Boolean); const noted=Object.keys(N).filter(id=>BY[id]&&N[id].text&&!isSaved(id)).map(id=>BY[id]);
+  return `<h1>Saved</h1><p class="sub">Stories, directions and facts you want to find again.</p>${list.length?`<div class="list">${list.map(listItem).join("")}</div>`:`<div class="empty"><strong>Nothing saved yet</strong>Save anything and it lives here. Mark it "Make it stick" and it comes back in Review.</div>`}
+    ${noted.length?`<hr class="sep"><div class="eyebrow">With notes · ${noted.length}</div><div class="list">${noted.map(listItem).join("")}</div>`:""}`;
+}
+
+function vReview(){
+  if(view&&BY[view]) return `<button class="back" data-back>${I.back} Review</button>${detailHtml(BY[view])}`;
+  const d=due(); let body;
+  if(!S.kept.length) body=`<div class="empty"><strong>Nothing to review</strong>Mark anything "Make it stick" and it comes back tomorrow, then at growing intervals. You get the setting first and try to recall the rest.</div>`;
+  else if(!d.length){ const n=Math.min(...S.kept.map(k=>k.due??dayNum()))-dayNum(); body=`<div class="empty"><strong>All caught up</strong>Next one is due ${n<=1?"tomorrow":`in ${n} days`}. ${S.kept.length} in the queue.</div>`; }
+  else { const x=BY[d[0].id];
+    const prompt= x.kind==="story"?`<h2 style="margin-bottom:4px">${esc(x.title)}</h2><div class="note">${esc(x.who)} · ${esc(x.when)}</div><p class="quote" style="margin-top:12px;font-style:normal">${esc(x.text.split(/\n\s*\n/)[0])}</p>` : x.kind==="direction"?`<div class="quote" style="font-style:normal">${esc(x.when||short(x.room))}</div><p class="note">What's the direction?</p>` : `<div class="quote" style="font-style:normal">${esc(x.use||x.source)}</div><p class="note">What's the fact?</p>`;
+    const answer= x.kind==="story"?`<div class="lineblock"><div class="lbl">The line</div><div class="ln">${esc(x.line)}</div></div><div class="moveblock"><div class="lbl">The move</div><div class="mv">${esc(x.move)}</div></div>` : x.kind==="direction"?`<div class="lineblock"><div class="lbl">Do</div><div class="ln">${esc(x.do)}</div></div><p class="sub">${esc(x.why)}</p>` : `<div class="lineblock"><div class="lbl">Fact</div><div class="ln">${esc(x.fact)}</div></div><p class="note">${esc(x.source)}</p>`;
+    body=`<p class="note">${d.length} due.</p><div class="card"><div class="eyebrow">${esc(x.room)}<span class="kindtag">${KIND[x.kind]}</span></div>${prompt}${revShow?`${answer}<div class="row"><button class="btn" data-grade="again">Didn't have it</button><button class="btn ghost" data-open="${x.id}">Open</button><button class="btn primary" data-grade="good" style="margin-left:auto">Had it</button></div>`:`<div class="row"><button class="btn primary" data-reveal>Show it</button></div>`}</div>`; }
+  return `<h1>Review</h1>${body}${S.kept.length?`<hr class="sep"><div class="eyebrow">In the queue · ${S.kept.length}</div><div class="list">${S.kept.map(k=>{ const x=BY[k.id]; const n=(k.due??0)-dayNum(); const t=x.kind==="story"?x.title:x.kind==="direction"?x.do:x.fact; return `<div class="item" data-open="${x.id}"><div><div class="t" style="font-size:1.1rem">${esc(t)}</div><div class="m">${KIND[x.kind]} · ${n<=0?"due now":n===1?"tomorrow":`in ${n} days`}</div></div><span class="arrow">›</span></div>`; }).join("")}</div>`:""}`;
+}
+
+function vMore(){
+  return `<button class="back" data-tab="today">${I.back} Back</button><h1>Settings</h1>
+    <div class="card"><div class="eyebrow">Reading</div><div class="row" style="justify-content:space-between"><span>Theme</span><div class="row"><button class="btn small ${S.theme!=="dark"?"on":""}" data-theme="light">Paper</button><button class="btn small ${S.theme==="dark"?"on":""}" data-theme="dark">Charcoal</button></div></div><div class="row" style="justify-content:space-between;margin-top:12px"><span>Story text size</span><div class="fsctl"><button data-fs="-">A</button><button data-fs="+" style="font-size:1.3rem">A</button></div></div></div>
+    <div class="card"><div class="eyebrow">Backup</div><p class="sub">What you've read, saved, kept for review, and your notes live only on this phone. One small file carries them.</p><div class="row"><button class="btn brass" data-export>${I.down} Full backup</button><button class="btn" data-restore>${I.up} Restore</button><button class="btn ghost" data-exportmd>${I.down} Notes (.md)</button></div></div>
+    <div class="card"><div class="eyebrow">About</div><p class="sub">${STORIES.length} true stories, ${DIRS.length} directions and ${FACTS.length} facts across ${ROOMS.length} rooms. Stories are drawn from biographies, memoirs, interviews and histories, and say "reportedly" where the wording is uncertain. Facts carry their source. If something is wrong, delete it from content.js; a wrong line is worse than no line.</p></div>`;
+}
+
+/* ===================== BACKUP ===================== */
+const stamp=()=>new Date().toISOString().slice(0,10);
+async function offerFile(filename,text,msg){ const type=filename.endsWith(".json")?"application/json":"text/markdown"; try{ const url=URL.createObjectURL(new Blob([text],{type})); const a=document.createElement("a"); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),4000); toast("Saved to your downloads"); return; }catch(e){} try{ await navigator.clipboard.writeText(text); toast(msg); }catch(e){ toast("Saving isn't available here"); } }
+function exportBackup(){ offerFile(`brief-backup-${stamp()}.json`, JSON.stringify({app:"brief",version:1,exported:new Date().toISOString(),state:S,notes:N}), "Backup copied to your clipboard"); }
+function exportMd(){ const L=["# The Brief · notes","",`Exported ${new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"})}.`,""]; for(const [id,n] of Object.entries(N)){ const x=BY[id]; if(!x||!n.text) continue; const t=x.kind==="story"?x.title:x.kind==="direction"?x.do:x.fact; L.push(`## ${t}`,"",`*${KIND[x.kind]} · ${x.room}*`,"",`**My note:** ${n.text}`,"","---",""); } offerFile(`brief-notes-${stamp()}.md`, L.join("\n"), "Notes copied to your clipboard"); }
+function restoreBackup(text){ let b; try{ b=JSON.parse(text); }catch(e){ return toast("That isn't a Brief backup"); } if(!b||b.app!=="brief"||!b.state) return toast("That isn't a Brief backup"); const st=b.state; S.read=[...new Set([...S.read,...(st.read||[])])]; S.days=[...new Set([...S.days,...(st.days||[])])]; const hs=new Set(S.saved); S.saved=[...S.saved,...(st.saved||[]).filter(id=>!hs.has(id))]; const hk=new Set(S.kept.map(k=>k.id)); S.kept=[...S.kept,...(st.kept||[]).filter(k=>k&&!hk.has(k.id))]; for(const [k,n] of Object.entries(b.notes||{})) if(!N[k]||(n.t||0)>(N[k].t||0)) N[k]=n; normalise(); persist(); render(); toast("Backup restored and merged"); }
+
+/* ===================== RENDER + EVENTS ===================== */
+function render(){ try{ renderInner(); }catch(err){ console.error(err); document.getElementById("view").innerHTML=`<div class="empty"><strong>That view didn't load</strong>Your progress is safe.<div class="row" style="justify-content:center;margin-top:10px"><button class="btn primary" data-tab="today">Go to Today</button></div></div>`; } }
+function renderInner(){
+  document.getElementById("hdrDate").textContent=new Date().toLocaleDateString("en-AU",{weekday:"short",day:"numeric",month:"short"});
+  const dd=due().length;
+  const tabs=[["today","Today",I.today],["rooms","Rooms",I.rooms],["search","Search",I.search],["saved","Saved",I.saved],["review","Review",I.review]];
+  document.getElementById("tabs").innerHTML=tabs.map(([k,l,ic])=>`<button class="${k===tab?"on":""}" data-tab="${k}">${ic}${l}${k==="review"&&dd?`<span class="badge">${dd}</span>`:""}</button>`).join("");
+  document.getElementById("view").innerHTML= tab==="today"?vToday():tab==="rooms"?vRooms():tab==="search"?vSearch():tab==="saved"?vSaved():tab==="review"?vReview():vMore();
+}
+function openItem(id){ if(!BY[id]) return; markRead(id); view=id; editing=null; render(); scrollTo(0,0); }
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-tab],[data-open],[data-back],[data-room],[data-roomback],[data-kind],[data-walkmore],[data-fullroom],[data-random],[data-random-room],[data-q],[data-save],[data-keep],[data-speak],[data-nedit],[data-nsave],[data-ncancel],[data-reveal],[data-grade],[data-theme],[data-fs],[data-export],[data-restore],[data-exportmd]");
+  if(!b) return; const d=b.dataset;
+  if(d.tab!==undefined){ stopSpeech(); if(d.tab==="rooms"&&(tab!=="rooms"||!view)) room=null; walkMode=d.walk!==undefined; tab=d.tab; view=null; editing=null; revShow=false; randomSeq=false; render(); scrollTo(0,0); return; }
+  if(d.open!==undefined){ stopSpeech(); randomSeq=false; openItem(d.open); return; }
+  if(d.back!==undefined){ stopSpeech(); view=null; editing=null; randomSeq=false; render(); scrollTo(0,0); return; }
+  if(d.room!==undefined){ room=d.room; view=null; roomKind=inRoom(room,"direction").length?"direction":"story"; walkSalt=0; render(); scrollTo(0,0); return; }
+  if(d.roomback!==undefined){ room=null; view=null; render(); scrollTo(0,0); return; }
+  if(d.kind!==undefined){ roomKind=d.kind; render(); return; }
+  if(d.walkmore!==undefined){ walkSalt++; render(); scrollTo(0,0); return; }
+  if(d.fullroom!==undefined){ walkMode=false; render(); scrollTo(0,0); return; }
+  if(d.random!==undefined){ stopSpeech(); const pool=STORIES.filter(s=>!isRead(s.id)); const arr=pool.length?pool:STORIES; const s=arr[Math.floor(Math.random()*arr.length)]; tab="rooms"; room=s.room; roomKind="story"; walkMode=false; randomSeq=true; openItem(s.id); return; }
+  if(d.randomRoom!==undefined){ const pool=inRoom(room); const x=pool[Math.floor(Math.random()*pool.length)]; openItem(x.id); return; }
+  if(d.q!==undefined){ stopSpeech(); tab="search"; view=null; q=d.q; render(); scrollTo(0,0); return; }
+  if(d.save!==undefined){ toggleSave(d.save); render(); return; }
+  if(d.keep!==undefined){ toggleKeep(d.keep); render(); return; }
+  if(d.speak!==undefined){ speakStory(BY[d.speak]); return; }
+  if(d.nedit!==undefined){ editing=d.nedit; render(); setTimeout(()=>{ const t=document.getElementById("ntext"); if(t){ t.focus(); t.setSelectionRange(t.value.length,t.value.length); } },50); return; }
+  if(d.nsave!==undefined){ const t=document.getElementById("ntext").value.trim(); if(t) N[d.nsave]={text:t,t:Date.now()}; else delete N[d.nsave]; editing=null; persist(); render(); toast(t?"Note saved":"Note removed"); return; }
+  if(d.ncancel!==undefined){ editing=null; render(); return; }
+  if(d.reveal!==undefined){ revShow=true; render(); return; }
+  if(d.grade!==undefined){ const k=due()[0]; if(k){ k.interval=d.grade==="good"?Math.min((k.interval||1)*2,90):1; k.due=dayNum()+k.interval; persist(); } revShow=false; render(); scrollTo(0,0); return; }
+  if(d.theme!==undefined){ S.theme=d.theme; persist(); applyTheme(); render(); return; }
+  if(d.fs!==undefined){ S.fs=Math.max(1.1,Math.min(1.9,+(S.fs+(d.fs==="+"?.1:-.1)).toFixed(2))); persist(); applyTheme(); return; }
+  if(d.export!==undefined){ exportBackup(); return; }
+  if(d.exportmd!==undefined){ exportMd(); return; }
+  if(d.restore!==undefined){ document.getElementById("restoreFile").click(); return; }
+});
+document.addEventListener("input",e=>{ if(e.target.id==="q"){ q=e.target.value; const pos=e.target.selectionStart; render(); const el=document.getElementById("q"); if(el){ el.focus(); el.setSelectionRange(pos,pos); } } });
+document.addEventListener("change",e=>{ if(e.target.id==="restoreFile"&&e.target.files&&e.target.files[0]){ e.target.files[0].text().then(restoreBackup); e.target.value=""; } });
+if("serviceWorker" in navigator){ addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(()=>{}); }); }
+render();
+</script>
+</body>
+</html>
